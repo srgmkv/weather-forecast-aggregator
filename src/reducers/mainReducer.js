@@ -1,34 +1,39 @@
 import providers from '../providersList';
 
-const initState = {
-  searchRequest: ''
-}
 const initProviderDataState = {
-  dataLoaded: [],
+  dataLoaded: null,
   loading: false,
   error: false,
   errorMessage: '',
   isButtonPressed: false
 }
 
-providers.forEach(provider => {
-  initState[provider.providerName] = initProviderDataState
-})
+const initState = {
+  searchRequest: 'moscow',
+  providersData: providers.map(provider => {
+    const { providerName } = provider
+    return {
+      ...initProviderDataState, providerName
+    }
+  })
+}
 
 const reducer = (state = initState, action) => {
-  console.log('action.providerName', action.providerName)
-  console.log('state', state)
-  switch (action.type) {
 
+  const updateData = data => (state.providersData.map(i =>
+    i.providerName === action.providerName ? data : i))
+
+  switch (action.type) {
     case 'DATA_LOADED':
-      const providerData = {
+      const providerUpdData = {
         ...initProviderDataState,
         dataLoaded: action.payload,
+        providerName: action.providerName,
         isButtonPressed: true
       }
       return {
         ...state,
-        [action.providerName]: providerData
+        providersData: updateData(providerUpdData)
 
       }
 
@@ -36,26 +41,53 @@ const reducer = (state = initState, action) => {
       const erroredData = {
         ...initProviderDataState,
         error: true,
-        errorMessage:action.payload ,
+        errorMessage: action.payload,
+        providerName: action.providerName,
         isButtonPressed: true
       }
       return {
         ...state,
-        [action.providerName]: erroredData
+        providersData: updateData(erroredData)
 
       }
 
     case 'SEND_REQUEST':
-      return {
-        ...state,
-        [action.payload.providerName]: { ...initProviderDataState, loading: true }
-
-      }
+        return {
+          ...state,
+          providersData: state.providersData.map(item => {
+            if (item.providerName === action.providerName) {
+              return {
+                ...initProviderDataState,
+                providerName: action.providerName,
+                isButtonPressed: item.isButtonPressed,
+                loading: true
+              }
+            }
+            return item
+  
+          })
+        }
 
     case 'CHANGE_INPUT':
       return {
         ...state,
         searchRequest: action.inputvalue
+      }
+
+    case 'BUTTON_CLICK':
+      return {
+        ...state,
+        providersData: state.providersData.map(item => {
+          if (item.providerName === action.providerName) {
+            return {
+              ...initProviderDataState,
+              providerName: action.providerName,
+              isButtonPressed: !item.isButtonPressed
+            }
+          }
+          return item
+
+        })
       }
 
     default:

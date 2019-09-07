@@ -1,22 +1,33 @@
-import { takeEvery, call, put, delay } from "redux-saga/effects"
+import { takeEvery, call, put, select } from "redux-saga/effects"
 import axios from 'axios';
 import providers from '../providersList';
+import dataMapper from './dataMapper'
+
+const getProviderData = state => state.providersData;
+const getQueryString = state => state.searchRequest;
 
 export default function* watchInput() {
-  yield takeEvery('SEND_REQUEST', handleSendRequest);
+  yield takeEvery('BUTTON_CLICK', handleSendRequest);
 }
 
 function* handleSendRequest(action) {
-  const { payload: { providerName, location } } = action
- 
-const [provider] = providers.filter(item => item.providerName === providerName)
+  const { providerName } = action
+  const [provider] = providers.filter(item => item.providerName === providerName)
+  const location = yield select(getQueryString);
+  const url = provider.getUrl(location);
+  const providersData = yield select(getProviderData);
+  const [currentProvider] = providersData
+    .filter(item => item.providerName === providerName)
 
-  const url = provider.getUrl(location)
   try {
-    const dataFromApi = yield call(fetchForecast, url)
-    console.log('dataFromApi', dataFromApi)
+    if (currentProvider.isButtonPressed) {
+      yield put({ type: 'SEND_REQUEST', providerName })
+      const dataFromApi = yield call(fetchForecast, url)
+      const dataMapped =  dataMapper(dataFromApi.data, providerName)
+      yield put({ type: 'DATA_LOADED', payload: dataMapped, providerName })
 
-    yield put({ type: 'DATA_LOADED', payload: dataFromApi.data, providerName })
+    }
+    //yield put({ type: 'TOOGLE_BLOCK', providerName })
 
   } catch (error) {
     yield put({ type: 'API_ERRORED', payload: error, providerName })
@@ -31,16 +42,3 @@ function fetchForecast(queryString) {
 
 
 //вспомогательная ф-я, преобразующая полченные данные в нужный вид
-function fetchedDataMapper(dataToMap) {
-  const items = dataToMap.data.items
-  return items
-    .map((item) => ({
-      id: item.id,
-      url: item.html_url,
-      name: item.full_name,
-      stars: item.stargazers_count,
-      watchers: item.watchers_count
-    }))
-    .sort((a, b) => b.stars - a.stars)
-    .slice(0, 10)
-}

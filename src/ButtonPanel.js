@@ -1,14 +1,15 @@
 import React from 'react';
 import Button from './Button';
-import providers from './providersList'
+
+import { connect } from 'react-redux'
 
 
 
-const ButtonPanel = () => {
+const ButtonPanel = ({ providersData }) => {
 
-  const buttons = providers.map(provider => {
-    const { providerName } = provider
-    return <Button providerName={providerName}/>
+  const buttons = providersData.map((provider, ind) => {
+    const { providerName, isButtonPressed } = provider
+    return <Button key={ind} providerName={providerName} isPressed={isButtonPressed} />
 
   })
 
@@ -19,6 +20,7 @@ const ButtonPanel = () => {
   );
 }
 
+const mapToProps = state => ({ providersData: state.providersData })
 
-export default ButtonPanel
+export default connect(mapToProps)(ButtonPanel)
 

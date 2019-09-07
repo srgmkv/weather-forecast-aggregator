@@ -29,5 +29,13 @@ margin-right: 15px;
 }
 
 .data { 
-  height: 300px;
+  margin: 20px;
+}
+
+.weather-indicators{
+  display: flex;
+}
+
+.weather-indicators div {
+  margin: 3px;
 }
