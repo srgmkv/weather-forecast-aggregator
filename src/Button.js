@@ -2,13 +2,13 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import { connect } from 'react-redux'
 
-const ButtonComp = ({ searchRequest, providerId, name, sendRequest }) => {
+const ButtonComp = ({ searchRequest, providerName, sendRequest }) => {
   return (
 
     <Button size="small" color="secondary"
-      onClick={() => sendRequest(searchRequest, providerId)}
+      onClick={() => sendRequest(searchRequest, providerName)}
 
-      variant="outlined">{name}</Button>
+      variant="outlined">{providerName}</Button>
 
   );
 }
@@ -16,8 +16,7 @@ const ButtonComp = ({ searchRequest, providerId, name, sendRequest }) => {
 const mapToProps = (state, ownProps) => {
   return {
     searchRequest: state.searchRequest,
-    providerId: ownProps.providerId,
-    name:ownProps.name
+    providerName:ownProps.providerName
   }
 }
 
@@ -26,9 +25,9 @@ export default connect(mapToProps, { sendRequest })(ButtonComp);
 
 
 
-export function sendRequest(location, providerId) {
+export function sendRequest(location, providerName) {
   return {
     type: `SEND_REQUEST`,
-    request: { providerId, location }
+    payload: { providerName, location }
   }
 }
