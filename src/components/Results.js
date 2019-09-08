@@ -6,7 +6,7 @@ import Loader from '../view-components/Loader'
 const Results = ({ providersData }) => {
 
   const results = providersData.map((item, ind) => {
-    if (item.loading) {
+    if (item.showloader) {
       return <Loader />
     }
 

@@ -5,8 +5,9 @@ const initProviderDataState = {
   loading: false,
   showloader: false,
   error: false,
-  errorMessage: '',
-  isButtonPressed: false
+  errorMessage: null,
+  isButtonPressed: false,
+  providerName: null
 }
 
 const initState = {
@@ -21,53 +22,39 @@ const initState = {
 
 const reducer = (state = initState, action) => {
 
-  const updateData = data => (state.providersData.map(i =>
-    i.providerName === action.providerName ? data : i))
+  const updateData = (dataToChange, click = true) => {
+
+    return (state.providersData.map(i =>
+      i.providerName === action.providerName ?
+        {
+          ...initProviderDataState,
+          providerName: action.providerName,
+          isButtonPressed: click === 'click' ? !i.isButtonPressed : true,
+          ...dataToChange
+        }
+        : i))
+  }
 
   switch (action.type) {
     case 'DATA_LOADED':
-      const providerUpdData = {
-        ...initProviderDataState,
-        dataLoaded: action.payload,
-        providerName: action.providerName,
-        isButtonPressed: true
-      }
       return {
         ...state,
-        providersData: updateData(providerUpdData)
+        providersData: updateData({ dataLoaded: action.payload })
 
       }
 
     case 'API_ERRORED':
-      const erroredData = {
-        ...initProviderDataState,
-        error: true,
-        errorMessage: action.payload,
-        providerName: action.providerName,
-        isButtonPressed: true
-      }
       return {
         ...state,
-        providersData: updateData(erroredData)
-
+        providersData: updateData({ error: true, errorMessage: action.payload })
       }
 
     case 'SEND_REQUEST':
-        return {
-          ...state,
-          providersData: state.providersData.map(item => {
-            if (item.providerName === action.providerName) {
-              return {
-                ...initProviderDataState,
-                providerName: action.providerName,
-                isButtonPressed: item.isButtonPressed,
-                loading: true
-              }
-            }
-            return item
-  
-          })
-        }
+      return {
+        ...state,
+        providersData: updateData({ loading: true })
+
+      }
 
     case 'CHANGE_INPUT':
       return {
@@ -75,23 +62,16 @@ const reducer = (state = initState, action) => {
         searchRequest: action.inputvalue
       }
 
-      case 'SHOW_LOADER': 
-      return
-
     case 'BUTTON_CLICK':
       return {
         ...state,
-        providersData: state.providersData.map(item => {
-          if (item.providerName === action.providerName) {
-            return {
-              ...initProviderDataState,
-              providerName: action.providerName,
-              isButtonPressed: !item.isButtonPressed
-            }
-          }
-          return item
+        providersData: updateData(null, 'click')
+      }
 
-        })
+    case 'SHOW_LOADER':
+      return {
+        ...state,
+        providersData: updateData({ showloader: true, loading: true })
       }
 
     default:

@@ -7,7 +7,8 @@ const getProviderData = state => state.providersData;
 const getQueryString = state => state.searchRequest;
 
 export default function* watchClick() {
-  yield all([takeEvery('BUTTON_CLICK', handleSendRequest), takeEvery('BUTTON_CLICK', loaderHandler)])
+  yield all([takeEvery('BUTTON_CLICK', handleSendRequest),
+  takeEvery('BUTTON_CLICK', loaderHandler)])
 
 }
 
@@ -38,7 +39,7 @@ function* handleSendRequest(action) {
       yield put({ type: 'SEND_REQUEST', providerName });
       const dataFromApi = yield call(fetchForecast, url);
       const dataMapped = dataMapper(dataFromApi.data, providerName);
-      yield delay(1000);
+      yield delay(1500);
       yield put({ type: 'DATA_LOADED', payload: dataMapped, providerName });
     }
   } catch (error) {
