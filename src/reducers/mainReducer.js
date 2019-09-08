@@ -3,6 +3,7 @@ import providers from '../providersList';
 const initProviderDataState = {
   dataLoaded: null,
   loading: false,
+  showloader: false,
   error: false,
   errorMessage: '',
   isButtonPressed: false
@@ -73,6 +74,9 @@ const reducer = (state = initState, action) => {
         ...state,
         searchRequest: action.inputvalue
       }
+
+      case 'SHOW_LOADER': 
+      return
 
     case 'BUTTON_CLICK':
       return {

@@ -18,7 +18,6 @@ export default fetchedDataMapper;
 
 function WeatherBitMapper(dataToMap) {
   const items = dataToMap.data
-  //console.log('items', dataToMap)
   return items
     .slice(0, 10)
     .map((item) => ({

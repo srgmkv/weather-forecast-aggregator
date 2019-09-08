@@ -39,3 +39,7 @@ margin-right: 15px;
 .weather-indicators div {
   margin: 3px;
 }
+
+.loader {
+   margin: 20px 0;
+}

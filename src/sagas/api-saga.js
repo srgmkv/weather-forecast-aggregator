@@ -1,4 +1,4 @@
-import { takeEvery, call, put, select } from "redux-saga/effects"
+import { takeEvery, call, put, select, delay } from "redux-saga/effects"
 import axios from 'axios';
 import providers from '../providersList';
 import dataMapper from './dataMapper'
@@ -17,28 +17,21 @@ function* handleSendRequest(action) {
   const url = provider.getUrl(location);
   const providersData = yield select(getProviderData);
   const [currentProvider] = providersData
-    .filter(item => item.providerName === providerName)
+    .filter(item => item.providerName === providerName);
 
   try {
     if (currentProvider.isButtonPressed) {
-      yield put({ type: 'SEND_REQUEST', providerName })
-      const dataFromApi = yield call(fetchForecast, url)
-      const dataMapped =  dataMapper(dataFromApi.data, providerName)
-      yield put({ type: 'DATA_LOADED', payload: dataMapped, providerName })
-
+      yield put({ type: 'SEND_REQUEST', providerName });
+      const dataFromApi = yield call(fetchForecast, url);
+      const dataMapped = dataMapper(dataFromApi.data, providerName);
+      yield delay(1500);
+      yield put({ type: 'DATA_LOADED', payload: dataMapped, providerName });
     }
-    //yield put({ type: 'TOOGLE_BLOCK', providerName })
-
   } catch (error) {
-    yield put({ type: 'API_ERRORED', payload: error, providerName })
+    yield put({ type: 'API_ERRORED', payload: error, providerName });
   }
 }
 
-
 function fetchForecast(queryString) {
-  return axios.get(`${queryString}`)
+  return axios.get(`${queryString}`);
 }
-
-
-
-//вспомогательная ф-я, преобразующая полченные данные в нужный вид
