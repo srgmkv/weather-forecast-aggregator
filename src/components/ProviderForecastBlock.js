@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Paper from '@material-ui/core/Paper';
-import { connect } from 'react-redux';
-import DayForecast from '../view-components/DayForecast';
-import ProviderForecastView from '../view-components/ProviderForecastView';
+import React, { Component } from 'react'
+import Button from '@material-ui/core/Button'
+import { connect } from 'react-redux'
+import DayForecast from '../view-components/DayForecast'
+import ProviderForecastView from '../view-components/ProviderForecastView'
 
 class ProviderForecastBlock extends Component {
   state = {
@@ -66,4 +64,4 @@ const mapToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapToProps)(ProviderForecastBlock);
+export default connect(mapToProps)(ProviderForecastBlock)

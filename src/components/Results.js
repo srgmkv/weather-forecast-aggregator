@@ -30,4 +30,4 @@ const mapToProps = (state) => {
   return { providersData: state.providersData }
 }
 
-export default connect(mapToProps)(Results);
+export default connect(mapToProps)(Results)

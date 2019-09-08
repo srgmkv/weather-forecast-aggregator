@@ -1,6 +1,5 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-
+import React from 'react'
+import TextField from '@material-ui/core/TextField'
 import { connect } from 'react-redux'
 
 const changeInput = (ev) => {
@@ -25,5 +24,5 @@ const SearchInput = ({ inputValue, changeInput }) => {
 }
 const mapToProps = (state) => ({ inputValue: state.searchRequest })
 
-export default connect(mapToProps, { changeInput })(SearchInput);
+export default connect(mapToProps, { changeInput })(SearchInput)
 

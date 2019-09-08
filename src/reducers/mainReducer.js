@@ -1,4 +1,5 @@
 import providers from '../providersList';
+import {actions} from '../actions'
 
 const initProviderDataState = {
   dataLoaded: null,
@@ -23,7 +24,6 @@ const initState = {
 const reducer = (state = initState, action) => {
 
   const updateData = (dataToChange, click = true) => {
-
     return (state.providersData.map(i =>
       i.providerName === action.providerName ?
         {
@@ -36,39 +36,39 @@ const reducer = (state = initState, action) => {
   }
 
   switch (action.type) {
-    case 'DATA_LOADED':
+    case actions.DATA_LOADED:
       return {
         ...state,
         providersData: updateData({ dataLoaded: action.payload })
 
       }
 
-    case 'API_ERRORED':
+    case actions.API_ERRORED:
       return {
         ...state,
         providersData: updateData({ error: true, errorMessage: action.payload })
       }
 
-    case 'SEND_REQUEST':
+    case actions.SEND_REQUEST:
       return {
         ...state,
         providersData: updateData({ loading: true })
 
       }
 
-    case 'CHANGE_INPUT':
+    case actions.CHANGE_INPUT:
       return {
         ...state,
         searchRequest: action.inputvalue
       }
 
-    case 'BUTTON_CLICK':
+    case actions.BUTTON_CLICK:
       return {
         ...state,
         providersData: updateData(null, 'click')
       }
 
-    case 'SHOW_LOADER':
+    case actions.SHOW_LOADER:
       return {
         ...state,
         providersData: updateData({ showloader: true, loading: true })
