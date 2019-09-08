@@ -1,22 +1,23 @@
-import React from 'react';
-import ForecastBlock from './ProviderForecastBlock'
-import { connect } from 'react-redux';
-
-import Loader from './Loader';
+import React from 'react'
+import ProviderForecastBlock from './ProviderForecastBlock'
+import { connect } from 'react-redux'
+import Loader from '../view-components/Loader'
 
 const Results = ({ providersData }) => {
 
   const results = providersData.map((item, ind) => {
-   if (item.loading) return <Loader key={ind} />
+    if (item.loading) {
+      return <Loader />
+    }
 
     return item.dataLoaded !== null || item.error ?
-      <ForecastBlock
+      <ProviderForecastBlock
         key={ind}
         providerName={item.providerName}
+        loading={item.loading}
         data={item.error ? item.errorMessage.message : item.dataLoaded}
       /> : false
   })
-
 
   return (
     <div className="results">

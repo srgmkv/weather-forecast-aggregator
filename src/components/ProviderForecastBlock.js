@@ -3,16 +3,17 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux';
-import DayForecast from './DayForecast';
+import DayForecast from '../view-components/DayForecast';
+import ProviderForecastView from '../view-components/ProviderForecastView';
 
-class ForecastBlock extends Component {
+class ProviderForecastBlock extends Component {
   state = {
     '1-Day': true,
     '5-Days': false,
     '10-Days': false,
   }
 
-  clickHandler = (objKey) => {
+  clickHandler = (objKey) => { //переключаем активную кнопку (1-5-10 дней)
     if (!this.state[objKey]) {
       for (let prop in this.state) {
         this.setState({ [prop]: false })
@@ -22,19 +23,24 @@ class ForecastBlock extends Component {
   }
 
   render() {
-    const { providerName, data, loading } = this.props;
-    const indexToSlice = (() => {
+    const { providerName, data } = this.props;
+
+    const indexToSlice = (() => { //берем цифру дней из ключа кнопки в стейте
       for (let prop in this.state) {
         if (this.state[prop]) return parseInt(prop.match(/\d+/))
       }
     })();
-    
-    const obtainedData = Array.isArray(data) && data.slice(0, indexToSlice).map((item, ind) => {
-      return (
-        <DayForecast key={ind} item={item} />
-      )
-    })
 
+    //генерация блоков для 1-5-10дн прогноза
+    const dataByDayCondition = Array.isArray(data) && data
+      .slice(0, indexToSlice)
+      .map((item, ind) => {
+        return (
+          <DayForecast key={ind} item={item} />
+        )
+      })
+
+    //генерация кнопок для 1-5-10дн прогноза
     const daysButtons = Object.keys(this.state).map((key, ind) => {
       return <Button
         key={ind}
@@ -43,31 +49,21 @@ class ForecastBlock extends Component {
       >{key}</Button>
     })
 
-
-
     return (
-      <div className="forecast-block">
-        <Paper>
-          <div className="header">
-            <ButtonGroup color="primary" aria-label="outlined primary button group">
-              {daysButtons}
-            </ButtonGroup>
-            <div className="provider-name">{providerName}</div>
-          </div>
-          <div className="data">{obtainedData || data}</div>
-        </Paper>
-      </div>
+      <ProviderForecastView
+        providerName={providerName}
+        daysButtons={daysButtons}
+        dataByDayCondition={dataByDayCondition}
+      />
     );
   }
 }
 
 const mapToProps = (state, ownProps) => {
   return {
-    loading: state.loading,
     providerName: ownProps.providerName,
     data: ownProps.data
   }
 }
 
-
-export default connect(mapToProps)(ForecastBlock);
+export default connect(mapToProps)(ProviderForecastBlock);

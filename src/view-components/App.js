@@ -1,8 +1,8 @@
 import React from 'react';
 import 'typeface-roboto';
-import ButtonPanel from './ButtonPanel'
-import Results from './Results'
-import SearchInput from './SearchInput'
+import ButtonPanel from '../components/ButtonPanel'
+import Results from '../components/Results'
+import SearchInput from '../components/SearchInput'
 const App = () => {
   
   return (
