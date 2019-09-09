@@ -1,6 +1,6 @@
 import { takeEvery, all, call, put, select, delay } from "redux-saga/effects"
 import axios from 'axios'
-import providersApiSpec from '../providersList'
+import providersApiSpec from '../providersListApi'
 import dataMapper from './dataMapper'
 import {actions} from '../actions'
 

@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import DayForecast from '../view-components/DayForecast'
 import ProviderForecastView from '../view-components/ProviderForecastView'
 
+//Контейнер отвечает за рендер блока провайдера
+//хранит внутренне состояние кнопок 1-5-10 дн прогноз
 class ProviderForecastBlock extends Component {
   state = {
     '1-Day': true,

@@ -1,4 +1,4 @@
-import { providersName } from '../providersList'
+import { providersName } from '../providersListApi'
 
 //Т.к. у всех провайдеров разный формат ответа, то необходимо для кажждого
 //написать ф-ю нормализации данных, чтобы хранить их в одном формате

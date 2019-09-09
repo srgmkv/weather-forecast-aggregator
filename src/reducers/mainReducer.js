@@ -1,4 +1,4 @@
-import providers from '../providersList';
+import providers from '../providersListApi';
 import {actions} from '../actions'
 
 const initProviderDataState = { //инит-стейт провайдера

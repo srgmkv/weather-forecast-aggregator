@@ -3,17 +3,17 @@ import TextField from '@material-ui/core/TextField'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
 
-const changeInput = (ev) => {
+const changeInput = (ev = 'toEmpty') => {
   return {
     type: 'CHANGE_INPUT',
-    inputvalue: ev.target.value
+    inputvalue: ev === 'toEmpty' ? '' : ev.target.value
   }
 }
 
 const useStyles = makeStyles(theme => ({
   dense: {
     marginTop: '15px',
-  } 
+  }
 }));
 
 const SearchInput = ({ inputValue, changeInput }) => {
@@ -28,6 +28,7 @@ const SearchInput = ({ inputValue, changeInput }) => {
         margin="dense"
         variant="outlined"
         onChange={changeInput}
+        onClick={() => changeInput('toEmpty')}
         value={inputValue}
       />
       <div className="caption">WEATHER FORECAST AGREGATOR</div>
