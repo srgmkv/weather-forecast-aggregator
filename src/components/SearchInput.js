@@ -31,7 +31,7 @@ const SearchInput = ({ inputValue, changeInput }) => {
         onClick={() => changeInput('toEmpty')}
         value={inputValue}
       />
-      <div className="caption">WEATHER FORECAST AGREGATOR</div>
+      <div className="caption">WEATHER FORECAST AGGREGATOR</div>
     </div>
   );
 }
