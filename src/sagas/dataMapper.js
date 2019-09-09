@@ -1,12 +1,19 @@
+import { providersName } from '../providersList'
+
+//Т.к. у всех провайдеров разный формат ответа, то необходимо для кажждого
+//написать ф-ю нормализации данных, чтобы хранить их в одном формате
+
+//ф-я вызывает нужную ф-ю по имени провайдера для преобразования 
+//полученных данный с АПИ.
 function fetchedDataMapper(dataToMap, providerName) {
   switch (providerName) {
-    case 'WeatherBit':
+    case providersName.WeatherBit:
       return WeatherBitMapper(dataToMap);
 
-    case 'OpenWeather':
+    case providersName.OpenWeather:
       return OpenWeatherMapMapper(dataToMap);
 
-    case 'WW-Online':
+    case providersName.WW_Online:
       return WwOnline(dataToMap);
 
     default:
@@ -36,7 +43,7 @@ function OpenWeatherMapMapper(dataToMap) {
     .filter(item => item.dt_txt.includes('15:00:00'))
     .slice(0, 10)
     .map((item) => ({
-      date: item.dt_txt.substr(0,10),
+      date: item.dt_txt.substr(0, 10),
       temp: Math.round((item.main.temp - 273)),
       pressure: Math.round(item.main.pressure),
       wind: item.wind.speed.toFixed(1),

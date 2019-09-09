@@ -1,7 +1,7 @@
 import providers from '../providersList';
 import {actions} from '../actions'
 
-const initProviderDataState = {
+const initProviderDataState = { //инит-стейт провайдера
   dataLoaded: null,
   loading: false,
   showloader: false,
@@ -11,10 +11,9 @@ const initProviderDataState = {
   providerName: null
 }
 
-const initState = {
+const initState = { // инит-стейт всего стора
   searchRequest: 'moscow',
-  providersData: providers.map(provider => {
-    const { providerName } = provider
+  providersData: Object.keys(providers).map(providerName => {
     return {
       ...initProviderDataState, providerName
     }
@@ -23,6 +22,8 @@ const initState = {
 
 const reducer = (state = initState, action) => {
 
+  //ф-я формирует объект, исходя из типа менямых даннных,
+  //и передает его в редьюсер для нужного экшена для смены стейта.
   const updateData = (dataToChange, click = true) => {
     return (state.providersData.map(i =>
       i.providerName === action.providerName ?

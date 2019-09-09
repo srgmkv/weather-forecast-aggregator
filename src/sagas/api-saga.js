@@ -1,6 +1,6 @@
 import { takeEvery, all, call, put, select, delay } from "redux-saga/effects"
 import axios from 'axios'
-import providers from '../providersList'
+import providersApiSpec from '../providersList'
 import dataMapper from './dataMapper'
 import {actions} from '../actions'
 
@@ -12,10 +12,11 @@ export default function* watchClick() {
   takeEvery(actions.BUTTON_CLICK, loaderHandler)])
 
 }
-
+//Обработка условия => если загрузка длится более 0,5сек, то показываем
+//лоадер
 function* loaderHandler(action) {
   const { providerName } = action
-  yield delay(500)
+  yield delay(1500)
   const providersData = yield select(getProviderData)
   const [currentProvider] = providersData
     .filter(item => item.providerName === providerName)
@@ -25,11 +26,12 @@ function* loaderHandler(action) {
   }
 }
 
+//Обработка запроса на АПИ провайдера
 function* handleSendRequest(action) {
   const { providerName } = action
-  const [provider] = providers.filter(item => item.providerName === providerName)
+  //const [providerApiSpec] = providersApiSpec.filter(item => item.providerName === providerName)
   const location = yield select(getQueryString)
-  const url = provider.getUrl(location)
+  const url = providersApiSpec[providerName].getUrl(location)
   const providersData = yield select(getProviderData)
   const [currentProvider] = providersData
     .filter(item => item.providerName === providerName)
@@ -40,7 +42,7 @@ function* handleSendRequest(action) {
       yield put({ type: actions.SEND_REQUEST, providerName })
       const dataFromApi = yield call(fetchForecast, url)
       const dataMapped = dataMapper(dataFromApi.data, providerName)
-      yield delay(1500);
+      yield delay(2500);
       yield put({ type: actions.DATA_LOADED, payload: dataMapped, providerName })
     }
   } catch (error) {

@@ -2,6 +2,7 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles'
+
 const changeInput = (ev) => {
   return {
     type: 'CHANGE_INPUT',
