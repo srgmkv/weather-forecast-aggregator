@@ -2,9 +2,11 @@
   "name": "w-agregator",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://srgmkv.github.io/weather-forecast-aggr",
   "dependencies": {
     "@material-ui/core": "^4.4.0",
     "axios": "^0.19.0",
+    "gh-pages": "^2.1.1",
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
@@ -16,6 +18,8 @@
     "typeface-roboto": "0.0.75"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
