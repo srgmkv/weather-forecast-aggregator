@@ -8,7 +8,7 @@ const providers = [
     }
   },
   {
-    providerName: 'OpenWeatherMap',
+    providerName: 'OpenWeather',
     hostName: 'https://api.openweathermap.org/data/2.5/forecast',
     apiKey: '2b0c757f5810cdb1eb3a945f283be600',
     getUrl: function (location) {
@@ -24,6 +24,6 @@ const providers = [
   }
 ]
 
-export const providerList = providers.map(i => i.providerName)
+//export const providerList;
 
 export default providers;

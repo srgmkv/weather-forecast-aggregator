@@ -13,7 +13,8 @@ class ProviderForecastBlock extends Component {
 
   clickHandler = (objKey) => { //переключаем активную кнопку (1-5-10 дней)
     if (!this.state[objKey]) {
-      for (let prop in this.state) {
+      let prop
+      for ( prop in this.state) {
         this.setState({ [prop]: false })
       }
       this.setState({ [objKey]: true })
@@ -24,7 +25,8 @@ class ProviderForecastBlock extends Component {
     const { providerName, data } = this.props;
 
     const indexToSlice = (() => { //берем цифру дней из ключа кнопки в стейте
-      for (let prop in this.state) {
+      let prop
+      for (prop in this.state) {
         if (this.state[prop]) return parseInt(prop.match(/\d+/))
       }
     })();
@@ -33,14 +35,18 @@ class ProviderForecastBlock extends Component {
     const dataByDayCondition = Array.isArray(data) && data
       .slice(0, indexToSlice)
       .map((item, ind) => {
+        const day = new Date(item.date).getDate()
+        const mlist = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = new Date(item.date).getMonth()
         return (
-          <DayForecast key={ind} item={item} />
+          <DayForecast key={ind} item={item} day={day < 10 ? `0${day}` : day} month={mlist[month]}/>
         )
       })
 
     //генерация кнопок для 1-5-10дн прогноза
     const daysButtons = Object.keys(this.state).map((key, ind) => {
       return <Button
+      size="small" 
         key={ind}
         variant={this.state[key] ? 'contained' : 'outlined'}
         onClick={() => this.clickHandler(key)}
@@ -51,7 +57,7 @@ class ProviderForecastBlock extends Component {
       <ProviderForecastView
         providerName={providerName}
         daysButtons={daysButtons}
-        dataByDayCondition={dataByDayCondition}
+        dataByDayCondition={dataByDayCondition || data}
       />
     );
   }

@@ -1,14 +1,14 @@
 import React from 'react';
 
-const DayForecastBlock = ({ item }) => {
+const DayForecastBlock = ({ item, day, month }) => {
   return (
     <div className="weather-indicators">
-      <div>date: {item.date}</div>
-      <div>T: {item.temp}</div>
-      <div>P: {item.pressure}</div>
-      <div>W: {item.wind}</div>
-      <div>H: {item.humidity}</div>
-      <div>Desc: {item.desc}</div>
+      <div className="date">{day} {month}  </div>
+      <div className="temp">{item.temp}°C</div>
+      <div className="press"><span>P, mm:</span> {item.pressure}</div>
+      <div className="wind"><span>W, m/s:</span>  {item.wind}</div>
+      <div className="hum"><span>H, %:</span>  {item.humidity}</div>
+      <div className="desc">{item.desc}</div>
     </div>
   )
 }

@@ -44,6 +44,7 @@ function* handleSendRequest(action) {
       yield put({ type: actions.DATA_LOADED, payload: dataMapped, providerName })
     }
   } catch (error) {
+    console.log('error when fetching data from API:', error)
     yield put({ type: actions.API_ERRORED, payload: error, providerName })
   }
 }

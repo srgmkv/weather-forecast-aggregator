@@ -7,7 +7,7 @@ const Results = ({ providersData }) => {
 
   const results = providersData.map((item, ind) => {
     if (item.showloader) {
-      return <Loader />
+      return <Loader key={ind}/>
     }
 
     return item.dataLoaded !== null || item.error ?

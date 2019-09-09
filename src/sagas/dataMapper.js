@@ -3,7 +3,7 @@ function fetchedDataMapper(dataToMap, providerName) {
     case 'WeatherBit':
       return WeatherBitMapper(dataToMap);
 
-    case 'OpenWeatherMap':
+    case 'OpenWeather':
       return OpenWeatherMapMapper(dataToMap);
 
     case 'WW-Online':
