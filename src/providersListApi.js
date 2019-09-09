@@ -2,7 +2,7 @@
 const providersApiSpec = {
   WeatherBit: {
     providerName: 'WeatherBit',
-    hostName: 'http://api.weatherbit.io/v2.0/forecast/daily',
+    hostName: 'https://api.weatherbit.io/v2.0/forecast/daily',
     apiKey: 'ea37e393970247b18d43d2091aa7b95e',
     getUrl: function (location) {
       return `${this.hostName}?city=${location}&key=${this.apiKey}`
@@ -18,7 +18,7 @@ const providersApiSpec = {
   },
   WW_Online: {
     providerName: 'WW_Online',
-    hostName: 'http://api.worldweatheronline.com/premium/v1/weather.ashx',
+    hostName: 'https://api.worldweatheronline.com/premium/v1/weather.ashx',
     apiKey: 'f87c5c2e9e064353a1180848190709',
     getUrl: function (location) {
       return `${this.hostName}?q=${location}&key=${this.apiKey}&format=json&num_of_days=10`
