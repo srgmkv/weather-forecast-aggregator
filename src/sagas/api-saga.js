@@ -12,11 +12,11 @@ export default function* watchClick() {
   takeEvery(actions.BUTTON_CLICK, loaderHandler)])
 
 }
-//Обработка условия => если загрузка длится более 0,5сек, то показываем
+//Обработка условия => если загрузка длится более 1сек, то показываем
 //лоадер
 function* loaderHandler(action) {
   const { providerName } = action
-  yield delay(1500)
+  yield delay(1000)
   const providersData = yield select(getProviderData)
   const [currentProvider] = providersData
     .filter(item => item.providerName === providerName)
@@ -42,7 +42,7 @@ function* handleSendRequest(action) {
       yield put({ type: actions.SEND_REQUEST, providerName })
       const dataFromApi = yield call(fetchForecast, url)
       const dataMapped = dataMapper(dataFromApi.data, providerName)
-      yield delay(2500);
+      yield delay(2000) // задержка 2 сек для наглядности отсрочки лоадера
       yield put({ type: actions.DATA_LOADED, payload: dataMapped, providerName })
     }
   } catch (error) {

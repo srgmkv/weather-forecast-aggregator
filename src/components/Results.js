@@ -3,7 +3,6 @@ import ProviderForecastBlock from './ProviderForecastBlock'
 import { connect } from 'react-redux'
 import Loader from '../view-components/Loader'
 
-
 //Контейнер рендерит блок, где отображуются все вызванные провайдеры
 const Results = ({ providersData }) => {
 
